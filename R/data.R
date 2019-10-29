@@ -30,3 +30,38 @@
 #' }
 #' @family CMIP6
 'cmip6_ini'
+
+#' A list of the CMIP6 scenario, variable, and year center and scale weights.
+#'
+#' A list of the values from the large ensemble of Hector values to use to
+#' center and scale the Hector and CMIP6 output by. This is an important
+#' part of the single ESM calibration process.
+#'
+#'
+#' @format A list of the center and scale values to normalize Hector and ESM output data.
+#' \describe{
+#' \item{center}{A vector the Hector ensemble means for each scenario, variable, and year to use when noramlizing data.}
+#' \item{scale}{A vector the Hector ensemble standard deviation for each scenario, variable, and year to use when noramlizing data.}
+#' }
+#' @family CMIP6
+'cmip_center_scale'
+
+
+#' A data frame of the global mean CMIP6 values
+#'
+#' The data frame containing the global mean value from each ESM to use as comparison data during the calibration process.
+#'
+#' @format Data frame with 7 columns
+#' \describe{
+#' \item{era}{The MIP era}
+#' \item{year}{Year being described (1851--2300)}
+#' \item{value}{Value of the variable being reported}
+#' \item{variable}{Variable being reported ("tas" or "co2").  Temperatures are
+#' anomalies relative to the first decade reported by the model.}
+#' \item{model}{Name of the model}
+#' \item{ensemble}{Identifier for the ensemble member}
+#' \item{experiment}{Experiment being reported. One of "historical", "rcp26", "rcp45",
+#' "rcp60", "rcp85", "esmHistorical", "esmrcp85"}
+#' }
+#' @family CMIP6
+'cmip6_data'
