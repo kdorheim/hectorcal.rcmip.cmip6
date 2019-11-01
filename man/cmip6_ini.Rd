@@ -20,7 +20,9 @@ can be used to generate Hector cores until the CMIP6 ini files have been
 created.
 }
 \seealso{
-Other CMIP6: \code{\link{cmip6_Hector_inputs}}
+Other CMIP6: \code{\link{cmip6_Hector_inputs}},
+  \code{\link{cmip6_center_scale}},
+  \code{\link{cmip6_data}}
 }
 \concept{CMIP6}
 \keyword{datasets}

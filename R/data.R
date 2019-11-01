@@ -44,7 +44,7 @@
 #' \item{scale}{A vector the Hector ensemble standard deviation for each scenario, variable, and year to use when noramlizing data.}
 #' }
 #' @family CMIP6
-'cmip_center_scale'
+'cmip6_center_scale'
 
 
 #' A data frame of the global mean CMIP6 values

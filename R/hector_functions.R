@@ -16,15 +16,13 @@ newCMIP6core <- function(cmip_scenario){
 
   # Create a Hector core using the appropriate existin ini file.
   ini_name <- cmip6_ini$ini_name[cmip6_ini$cmip6 == cmip_scenario]
-  ini      <- system.file(file.path('input', ini_name), package = 'hector')
-  core     <- newcore(inifile = ini, name = cmip_scenario)
+  core     <- newcore(inifile = ini_name, name = cmip_scenario)
 
   # Set up the Hector core with the CMIP6 specific emissions/concenatrion time series.
   time_series_inputs <- cmip6_Hector_inputs[[cmip_scenario]]
 
   split(time_series_inputs, time_series_inputs$variable) %>%
     lapply(function(input){
-
           setvar(core = core, dates = input$year, values = input$value,
            var = input$variable, unit =  input$units)
   })

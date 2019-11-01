@@ -7,11 +7,14 @@
 newCMIP6core(cmip_scenario)
 }
 \arguments{
-\item{cmip_scenario}{The name of the CMIP6 scenario to set up, it must match package CMIP6 nomenclature. emissions/concenstraiton.CMIP6epxeriment.}
+\item{cmip_scenario}{The name of the CMIP6 scenario to set up, it must match package CMIP6 nomenclature.
+emissions/concenstraiton.CMIP6epxeriment.}
 }
 \value{
 A Hector core that is ready to run
 }
 \description{
 Make a new Hector core and set it up with emissions and/or concentrations from the CMIP6 scenarios.
+This function depends on a specific R version package being installed, it must have the ability to
+perscibe GHG concentrations.
 }

@@ -15,6 +15,7 @@ library(hector)
 library(hectorcal)
 library(doParallel)
 library(dplyr)
+devtools::load_all('~/Documents/2019/As/hector/')
 
 
 # Define the prior hyper-parameters, these should be the same as the hyper-parameters defined in
@@ -163,7 +164,7 @@ sample_Hector <- function(param_vals, cmip_run, keeptimes, vars = c(GLOBAL_TEMP(
 # 2. Runs ------------------------------------------------------------------------------------------------
 # Make the output directory
 output_dir <- OUTPUT_DIR
-
+dir.create(output_dir)
 ## Variables to keep for different kinds of runs
 vars <- c(GLOBAL_TEMP(), HEAT_FLUX(), ATMOSPHERIC_CO2())
 

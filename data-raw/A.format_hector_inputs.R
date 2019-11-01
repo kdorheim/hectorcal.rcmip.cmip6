@@ -15,6 +15,7 @@
 # Load the libraries
 library(dplyr)
 library(tidyr)
+library(udunits2)
 
 # Define the paths
 INPUT_DIR  <- here::here('data-raw', 'A.cmip6-inputs')
@@ -76,28 +77,13 @@ rcmip_emiss %>%
   filter(Mip_Era == 'CMIP6') %>%
   left_join(conversion_table, by = c('rcmip_variable')) %>%
   na.omit %>%
+  filter(hector_variable == EMISSIONS_SO2()) %>%
   mutate(value =  udunits2::ud.convert(value, rcmip_udunits, hector_udunits)) %>%
   select(model = Model, scenario = Scenario, year, value, hector_component, variable = hector_variable, units = hector_unit) %>%
   group_by(model, scenario, year, hector_component, variable, units) %>%
   summarise(value = sum(value)) %>%
   ungroup ->
   CMIP6_emissions
-
-# Subset the CMIP6 emissions for the aerosol and ozone precursors are missing from the concentration
-# driven runs so we will use emissions there.
-missing_from_conc <- setdiff(CMIP6_emissions$hector_component, CMIP6_concentrations$hector_component)
-
-CMIP6_emissions %>%
-# Problem the emissions driven scenarios do not include the CMIP6 ssps just the
-# some idealized runs, therefore we cannot do the concentration driven runs at the
-# the moment.
-  filter(hector_component %in% missing_from_conc) %>%
-  bind_rows(CMIP6_concentrations) ->
-  CMIP6_concentrations
-
-# 3. Save Data ---------------------------------------------------------------------------------
-CMIP6_concentrations$driven <- 'concentration'
-CMIP6_emissions$driven      <- 'emissions'
 
 # The list of concentration values that cannot be perscripbed and can be
 # removed accoring to Slack conversation with SJS.
@@ -109,10 +95,27 @@ nogo <- c('C3F8_concentration', 'C3F8_concentration', 'C4F10_concentration',
           'HFC236fa_concentration', 'HFC245_concentration', 'HFC365_concentration',
           'NF3_concentration', 'SO2F2_concentration')
 
+CMIP6_emissions <- filter(CMIP6_emissions, !variable %in% nogo)
+
+# Subset the CMIP6 emissions for the aerosol and ozone precursors are missing from the concentration
+# driven runs so we will use emissions there.
+missing_from_conc <- setdiff(CMIP6_emissions$hector_component, CMIP6_concentrations$hector_component)
 
 CMIP6_emissions %>%
+# Problem the emissions driven scenarios do not include the CMIP6 ssps just the
+# some idealized runs, therefore we cannot do the concentration driven runs at the
+# the moment.
+  filter(hector_component %in% missing_from_conc) %>%
   bind_rows(CMIP6_concentrations) %>%
   filter(!variable %in% nogo) ->
+  CMIP6_concentrations
+
+# 3. Save Data ---------------------------------------------------------------------------------
+CMIP6_concentrations$driven <- 'concentration'
+CMIP6_emissions$driven      <- 'emissions'
+
+CMIP6_emissions %>%
+  bind_rows(CMIP6_concentrations) ->
   CMIP6_inputs
 
 cmip6_Hector_inputs <- split(CMIP6_inputs, interaction(CMIP6_inputs$driven, CMIP6_inputs$scenario, drop = TRUE))
@@ -122,7 +125,7 @@ usethis::use_data(cmip6_Hector_inputs, overwrite = TRUE)
 # 4. Pair SSP with an ini files configurations ---------------------------------------------------------------------
 
 tibble(cmip6 = names(cmip6_Hector_inputs)) %>%
-  mutate(ini_name =  'hector_rcp85.ini') ->
+  mutate(ini_name =  system.file('input/rcmip-default.ini', package = 'hectorcal.rcmip.cmip6')) ->
   cmip6_ini
 
 usethis::use_data(cmip6_ini, overwrite = TRUE)

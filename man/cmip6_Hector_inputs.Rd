@@ -18,7 +18,8 @@ of the different CMIP6 scenarios labled by driver, either concentration or emiss
 scenario name.
 }
 \seealso{
-Other CMIP6: \code{\link{cmip6_ini}}
+Other CMIP6: \code{\link{cmip6_center_scale}},
+  \code{\link{cmip6_data}}, \code{\link{cmip6_ini}}
 }
 \concept{CMIP6}
 \keyword{datasets}
