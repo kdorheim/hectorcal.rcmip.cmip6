@@ -2,3 +2,16 @@
 .Rhistory
 .RData
 .Ruserdata
+
+.DS_Store
+.Rbuildignore
+analysis/.DS_Store
+analysis/cmip6-calibration.R
+analysis/cmip6_paramter_fits.csv.zip
+analysis/figs/
+analysis/output-sspTempHF/
+data-raw/B.Hector_enesmble_runs/
+data-raw/C.cmip6-outputs/.DS_Store
+data-raw/C.cmip6-outputs/cmip6_global_means_tas.csv
+hectorcal.rcmip.cmip6.Rproj
+log_large_file.txt
