@@ -186,7 +186,7 @@ param_vals        <- bind_cols(lapply(concentration_dists, function(f){f(2000)})
 param_vals$run_id <- 1:nrow(param_vals)
 
 # Historical
-sample_Hector(param_vals = param_vals, cmip_run = 'concentration.historical-cmip6', keeptimes = 1850:2014) %>%
+system.time({sample_Hector(param_vals = param_vals, cmip_run = 'concentration.historical-cmip6', keeptimes = 1850:2014)})
 saveRDS(file = file.path(output_dir, 'conc_hist.rds'))
 
 # SSP119
